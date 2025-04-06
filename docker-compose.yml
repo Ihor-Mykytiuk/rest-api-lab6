@@ -1,0 +1,29 @@
+services:
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  web:
+    build:
+      context: .
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/code
+      - /code/__pycache__
+    command: uv run main.py
+
+volumes:
+  postgres_data:
