@@ -3,7 +3,6 @@ from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
 
-from app.resources.book import BookResource
 
 
 class Base(DeclarativeBase):
@@ -23,5 +22,8 @@ def create_app(config_name='config.DevelopmentConfig'):
         db.create_all()
 
     api = Api(app)
-    api.add_resource(BookResource, '/book')
+    from app.resources.book import BookResource
+    from app.resources.book import BooksResource
+    api.add_resource(BooksResource, '/api/v1/books')
+    api.add_resource(BookResource, '/api/v1/books/<int:book_id>')
     return app
