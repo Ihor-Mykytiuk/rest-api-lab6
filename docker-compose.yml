@@ -23,7 +23,7 @@ services:
     volumes:
       - .:/code
       - /code/__pycache__
-    command: uv run main.py
+    command: uv run run.py
 
 volumes:
   postgres_data:
