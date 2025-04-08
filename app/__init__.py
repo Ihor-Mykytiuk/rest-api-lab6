@@ -2,7 +2,7 @@ from flask import Flask
 from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
-
+from flask_marshmallow import Marshmallow
 
 
 class Base(DeclarativeBase):
@@ -10,13 +10,14 @@ class Base(DeclarativeBase):
 
 
 db = SQLAlchemy(model_class=Base)
-
+ma = Marshmallow()
 
 def create_app(config_name='config.DevelopmentConfig'):
     app = Flask(__name__)
     app.config.from_object(config_name)
 
     db.init_app(app)
+    ma.init_app(app)
     from app.models.book import Book
     with app.app_context():
         db.create_all()

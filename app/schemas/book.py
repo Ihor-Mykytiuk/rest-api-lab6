@@ -1,14 +1,12 @@
-from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
-from marshmallow import fields
 from app.models.book import Book
+from app import ma
 
 
-class BookSchema(SQLAlchemyAutoSchema):
+class BookSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Book
         load_instance = True
-
-    id = fields.Int(dump_only=True)
-    title = fields.Str(required=True)
-    author = fields.Str(required=True)
-    published_year = fields.Str(required=True)
+    id = ma.auto_field()
+    title = ma.auto_field()
+    author = ma.auto_field()
+    published_year = ma.auto_field()
