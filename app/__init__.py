@@ -3,7 +3,7 @@ from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
 from flask_marshmallow import Marshmallow
-
+from flask_apispec import FlaskApiSpec
 
 class Base(DeclarativeBase):
     pass
@@ -11,6 +11,7 @@ class Base(DeclarativeBase):
 
 db = SQLAlchemy(model_class=Base)
 ma = Marshmallow()
+docs = FlaskApiSpec()
 
 def create_app(config_name='config.DevelopmentConfig'):
     app = Flask(__name__)
@@ -27,4 +28,8 @@ def create_app(config_name='config.DevelopmentConfig'):
     from app.resources.book import BooksResource
     api.add_resource(BooksResource, '/api/v1/books')
     api.add_resource(BookResource, '/api/v1/books/<int:book_id>')
+
+    docs.init_app(app)
+    docs.register(BookResource)
+    docs.register(BooksResource)
     return app
