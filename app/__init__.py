@@ -23,11 +23,11 @@ def create_app(config_name='config.DevelopmentConfig'):
     with app.app_context():
         db.create_all()
 
-    api = Api(app)
+    api = Api(app, prefix='/api/v1')
     from app.resources.book import BookResource
     from app.resources.book import BooksResource
-    api.add_resource(BooksResource, '/api/v1/books')
-    api.add_resource(BookResource, '/api/v1/books/<int:book_id>')
+    api.add_resource(BooksResource, '/books')
+    api.add_resource(BookResource, '/books/<int:book_id>')
 
     docs.init_app(app)
     docs.register(BookResource)
